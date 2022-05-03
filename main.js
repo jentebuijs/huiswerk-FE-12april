@@ -161,3 +161,145 @@ const inventory = [
     sold: 8,
   },
 ];
+
+// Opdrachten
+//1a)
+const tvTypes = inventory.map((tv) => {
+  return tv.type;
+});
+console.log(tvTypes);
+
+//1b)
+const tvSoldOut = inventory.filter((tv) => {
+  return tv.originalStock === tv.sold;
+});
+console.log(tvSoldOut);
+
+//1c)
+const tvAmbiLight = inventory.filter((tv) => {
+  return tv.options.ambiLight;
+});
+console.log(tvAmbiLight);
+
+//1d)
+inventory.sort(function (x, y) {
+  return x.price - y.price;
+});
+console.table(inventory);
+
+//2a)
+let tvSold = 0;
+for (let i = 0; i < inventory.length; i++) {
+  tvSold += inventory[i].sold;
+}
+console.log(tvSold);
+
+//2b)
+const soldTvs = document.getElementById('tvSold');
+soldTvs.innerHTML = `
+<h1>Televisies verkocht:</h1>
+<p>${tvSold}</p>
+`
+
+//2c)
+let tvBought = 0;
+for (let i = 0; i < inventory.length; i++) {
+  tvBought += inventory[i].originalStock;
+}
+console.log(tvBought);
+
+//2d)
+const boughtTvs = document.getElementById('tvBought');
+boughtTvs.innerHTML = `
+<h1>Televisies ingekocht:</h1>
+<p>${tvBought}</p>
+`
+
+//2e)
+let tvForSale = tvBought - tvSold;
+const forSaleTvs = document.getElementById('tvForSale');
+forSaleTvs.innerHTML = `
+<h1>Televisies te koop:</h1>
+<p>${tvForSale}</p>
+`
+
+//3a&b)
+function createBrandList(tvArray) {
+  const tvBrands = inventory.map((tv) => {
+    return `<li>${tv.brand}</li>`;
+  })
+  const tvBrandList = document.getElementById('tvBrands');
+  tvBrandList.innerHTML = `
+    <h1>Lijst van types</h1>
+    <p>${tvBrands.join('')}</p>
+    `
+}
+
+createBrandList(inventory);
+
+//4a)
+function toString(tv) {
+  return `${tv.brand} ${tv.type} - ${tv.name}`;
+}
+
+toString(inventory[0]);
+
+//4b)
+function toPrice(tvPrice) {
+  return `€${tvPrice},-`;
+}
+
+console.log(toPrice(100));
+
+//4c1)
+// function toSizeString(tvSizesArray) {
+//   let tvSize = '';
+//   for (let i = 0; i < tvSizesArray.length; i++) {
+//     const size = tvSizesArray[i];
+//     tvSize += `${size} inch (${Math.round(size * 2.54)} cm)`;
+//     if (i < tvSizesArray.length - 1) {
+//       tvSize += ` | `;
+//     }
+//   }
+//   return tvSize;
+// }
+
+//4c2)
+function toSizeString(tvSizesArray) {
+  let tvSize = '';
+  let counter = 0;
+  tvSizesArray.map((size) => {
+    tvSize += `${size} inch (${Math.round(size * 2.54)} cm)`;
+    //ternary if statement
+    (counter < tvSizesArray.length -1) ? tvSize += ` | ` : tvSize += '';
+    counter++;
+  })
+  return tvSize;
+}
+
+console.log(toSizeString([11, 12, 13, 32]));
+
+//4d)
+// const tvDescription = document.getElementById('tvDescription');
+// tvDescription.innerHTML = `
+// <p>${toString(inventory[3])}</p>
+// <p>${toPrice(inventory[3].price)}</p>
+// <p>${toSizeString(inventory[3].availableSizes)}</p>
+// `
+
+//4e)
+const tvDescriptions = document.getElementById('tvDescriptions')
+function tvGeneratorFunctie(tvArray) {
+inventory.map((tv) => {
+  tvDescriptions.innerHTML += `
+  <li>
+    <h1>${toString(tv)}</h1>
+    <h2>${toPrice(tv.price)}</h2>
+    <p>${toSizeString(tv.availableSizes)}</p>
+  </li>
+  `
+  })
+}
+
+tvGeneratorFunctie(inventory);
+
